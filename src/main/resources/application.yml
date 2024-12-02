@@ -10,3 +10,7 @@ spring:
   jpa:
     hibernate:
       ddl-auto: update
+
+security:
+  token:
+    secret: erickWck_!@#
