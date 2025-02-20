@@ -1,0 +1,17 @@
+spring:
+  application:
+    name: gestao_vagas
+  main:
+    banner-mode: off
+  datasource:
+    username: user
+    password: user123
+    url: jdbc:postgresql://localhost:5432/gestao_vagas
+  jpa:
+    hibernate:
+      ddl-auto: update
+
+security:
+  token:
+    secret: erickWck_!@#
+    candidate: erickWck
