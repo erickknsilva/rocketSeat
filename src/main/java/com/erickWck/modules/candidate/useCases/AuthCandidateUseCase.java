@@ -5,8 +5,6 @@ import com.auth0.jwt.algorithms.Algorithm;
 import com.erickWck.modules.candidate.dto.AuthCandidateDtoRequest;
 import com.erickWck.modules.candidate.dto.AuthCandidateDtoResponse;
 import com.erickWck.modules.candidate.repository.CandidateRepository;
-import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;

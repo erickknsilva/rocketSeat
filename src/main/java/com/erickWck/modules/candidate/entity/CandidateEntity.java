@@ -1,6 +1,5 @@
 package com.erickWck.modules.candidate.entity;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.media.Schema.RequiredMode;
 import jakarta.persistence.*;
@@ -14,11 +13,12 @@ import org.hibernate.validator.constraints.Length;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
+@Builder
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity(name = "candidate")
-public class Candidate {
+public class CandidateEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)

@@ -17,7 +17,7 @@ import java.util.UUID;
 @Data
 @Entity(name = "job")
 @NoArgsConstructor
-public class Job {
+public class JobEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
@@ -43,7 +43,7 @@ public class Job {
     @CreationTimestamp
     private LocalDateTime localDateTime;
 
-    public Job(String level, String beneficios, String description, UUID companyId) {
+    public JobEntity(String level, String beneficios, String description, UUID companyId) {
         this.level = level;
         this.beneficios = beneficios;
         this.description = description;

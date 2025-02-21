@@ -1,6 +1,6 @@
 package com.erickWck.modules.candidate.dto;
 
-import com.erickWck.modules.candidate.entity.Candidate;
+import com.erickWck.modules.candidate.entity.CandidateEntity;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Builder;
 
@@ -19,7 +19,7 @@ public record ProfileCandidateResponseDto(
         String description
 ) {
 
-    public static ProfileCandidateResponseDto fromEntityToDto(Candidate candidate) {
+    public static ProfileCandidateResponseDto fromEntityToDto(CandidateEntity candidate) {
         return new ProfileCandidateResponseDto(candidate.getId(), candidate.getName(), candidate.getUsername(),
                 candidate.getEmail(), candidate.getDescription());
     }

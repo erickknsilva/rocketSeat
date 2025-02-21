@@ -1,6 +1,6 @@
 package com.erickWck.modules.company.dto;
 
-import com.erickWck.modules.company.entity.Job;
+import com.erickWck.modules.company.entity.JobEntity;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.media.Schema.RequiredMode;
 import jakarta.validation.constraints.NotBlank;
@@ -24,7 +24,7 @@ public record JobDto(
         String level
 
 ) {
-    public static Job fromDtotoEntity(JobDto jobDto, UUID companyId) {
-        return new Job(jobDto.level(), jobDto.beneficios(), jobDto.description(), companyId);
+    public static JobEntity fromDtotoEntity(JobDto jobDto, UUID companyId) {
+        return new JobEntity(jobDto.level(), jobDto.beneficios(), jobDto.description(), companyId);
     }
 }

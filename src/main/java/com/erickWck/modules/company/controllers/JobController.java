@@ -1,10 +1,9 @@
 package com.erickWck.modules.company.controllers;
 
 import com.erickWck.modules.company.dto.JobDto;
-import com.erickWck.modules.company.entity.Job;
+import com.erickWck.modules.company.entity.JobEntity;
 import com.erickWck.modules.company.useCases.CreateJobUseCase;
 import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -14,7 +13,6 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
@@ -34,11 +32,11 @@ public class JobController {
             "da empresa.")
     @ApiResponses({
             @ApiResponse(responseCode = "200", content = {
-                    @Content(schema = @Schema(implementation = Job.class))
+                    @Content(schema = @Schema(implementation = JobEntity.class))
             })
     })
     @SecurityRequirement(name = "jwt_auth")
-    public Job create(@Valid @RequestBody JobDto requestDto, HttpServletRequest request) {
+    public JobEntity create(@Valid @RequestBody JobDto requestDto, HttpServletRequest request) {
 
         String companyId = request.getAttribute("companyID").toString();
 

@@ -1,6 +1,6 @@
 package com.erickWck.modules.candidate.useCases;
 
-import com.erickWck.modules.candidate.entity.Candidate;
+import com.erickWck.modules.candidate.entity.CandidateEntity;
 import com.erickWck.infra.exceptions.UsuarioAlreadExist;
 import com.erickWck.modules.candidate.repository.CandidateRepository;
 import lombok.AllArgsConstructor;
@@ -15,7 +15,7 @@ public class CreateCandidateUseCase {
 
     private final PasswordEncoder passwordEncoder;
 
-    public Candidate execute(Candidate candidate) {
+    public CandidateEntity execute(CandidateEntity candidate) {
         candidateRepository.
                 findByUsernameOrEmail(candidate.getUsername(), candidate.getEmail())
                 .ifPresent((user) -> {
