@@ -89,9 +89,7 @@ public class ApplyJobEntityCandidateEntityUseCaseTest {
         var result = applyJobCandidateUseCase.execute(candidate.getId(), idJob);
 
         assertThat(result).hasFieldOrProperty("id");
-        assertNotNull(result.id());
-
+        assertNotNull(result.getId());
 
     }
-
 }

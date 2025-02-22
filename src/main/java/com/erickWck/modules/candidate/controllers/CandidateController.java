@@ -1,7 +1,11 @@
 package com.erickWck.modules.candidate.controllers;
 
+import com.erickWck.infra.exceptions.CandidateNotFoundException;
+import com.erickWck.infra.exceptions.JobNotFoundException;
 import com.erickWck.modules.candidate.dto.ProfileCandidateResponseDto;
+import com.erickWck.modules.candidate.entity.ApplyJobEntity;
 import com.erickWck.modules.candidate.entity.CandidateEntity;
+import com.erickWck.modules.candidate.useCases.ApplyJobCandidateUseCase;
 import com.erickWck.modules.candidate.useCases.CreateCandidateUseCase;
 import com.erickWck.modules.candidate.useCases.ListAllJobsByFilterUseCase;
 import com.erickWck.modules.candidate.useCases.ProfileCandidateUseCase;
@@ -17,6 +21,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -38,6 +43,9 @@ public class CandidateController {
     @Autowired
     private ListAllJobsByFilterUseCase listAllJobsByFilterUseCase;
 
+    @Autowired
+    private ApplyJobCandidateUseCase applyJobCandidateUseCase;
+
     @PostMapping
     @Operation(summary = "Cadastro candidato",
             description = "Essa função responsável por cadastrar um candidato.")
@@ -46,7 +54,7 @@ public class CandidateController {
             @ApiResponse(responseCode = "200", content = {
                     @Content(array = @ArraySchema(schema = @Schema(implementation = CandidateEntity.class)))
             }),
-            @ApiResponse(responseCode = "400",description = "Usuario já cadastrado no sistema")
+            @ApiResponse(responseCode = "400", description = "Usuario já cadastrado no sistema")
     })
     public ResponseEntity<Object> create(@Valid @RequestBody CandidateEntity candidate) {
 
@@ -93,6 +101,30 @@ public class CandidateController {
     @SecurityRequirement(name = "jwt_auth")
     public List<JobEntity> findJobByFilter(@RequestParam String filter) {
         return this.listAllJobsByFilterUseCase.execute(filter);
+    }
+
+    @PostMapping("/job/apply")
+    @PreAuthorize("hasRole('CANDIDATE')")
+    @Operation(summary = "Inscrição do candidato para uma vaga.",
+            description = "Essa função responsável por realizar a inscrição do candidato em uma vaga.")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", content = {
+                    @Content(array = @ArraySchema(schema = @Schema(implementation = ApplyJobEntity.class)))
+            }),
+            @ApiResponse(responseCode = "404", description = "Candidate not found"),
+            @ApiResponse(responseCode = "404", description = "Job not found")
+    })
+    @SecurityRequirement(name = "jwt_auth")
+    public ResponseEntity<Object> applyJob(HttpServletRequest request, @RequestBody UUID idJob) {
+
+        var candidateId = request.getAttribute("candidateId").toString();
+        try {
+            var result = applyJobCandidateUseCase.execute(UUID.fromString(candidateId), idJob);
+            return ResponseEntity.ok().body(result);
+
+        } catch (CandidateNotFoundException | JobNotFoundException ex) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.getMessage());
+        }
     }
 
 }
