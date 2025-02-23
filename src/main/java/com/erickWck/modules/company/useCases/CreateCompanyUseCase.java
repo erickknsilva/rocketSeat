@@ -1,7 +1,7 @@
 package com.erickWck.modules.company.useCases;
 
 import com.erickWck.infra.exceptions.UsuarioAlreadExist;
-import com.erickWck.modules.company.entity.Company;
+import com.erickWck.modules.company.entity.CompanyEntity;
 import com.erickWck.modules.company.repository.CompanyRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,18 +17,18 @@ public class CreateCompanyUseCase {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
-    public Company execute(Company company) {
+    public CompanyEntity execute(CompanyEntity companyEntity) {
 
-        companyRepository.findByUsernameOrEmail(company.getUsername(), company.getEmail())
+        companyRepository.findByUsernameOrEmail(companyEntity.getUsername(), companyEntity.getEmail())
                 .ifPresent((username) -> {
                     throw new UsuarioAlreadExist();
                 });
 
-        var password = passwordEncoder.encode(company.getPassword());
+        var password = passwordEncoder.encode(companyEntity.getPassword());
 
-        company.setPassword(password);
+        companyEntity.setPassword(password);
 
-        return companyRepository.save(company);
+        return companyRepository.save(companyEntity);
     }
 
 

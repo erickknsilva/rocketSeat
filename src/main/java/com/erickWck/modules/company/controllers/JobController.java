@@ -1,6 +1,6 @@
 package com.erickWck.modules.company.controllers;
 
-import com.erickWck.modules.company.dto.JobDto;
+import com.erickWck.modules.company.dto.JobRequestDto;
 import com.erickWck.modules.company.entity.JobEntity;
 import com.erickWck.modules.company.useCases.CreateJobUseCase;
 import io.swagger.v3.oas.annotations.Operation;
@@ -36,7 +36,7 @@ public class JobController {
             })
     })
     @SecurityRequirement(name = "jwt_auth")
-    public JobEntity create(@Valid @RequestBody JobDto requestDto, HttpServletRequest request) {
+    public JobEntity create(@Valid @RequestBody JobRequestDto jobDto, HttpServletRequest request) {
 
         String companyId = request.getAttribute("companyID").toString();
 
@@ -47,7 +47,13 @@ public class JobController {
          .company_Id(UUID.fromString(companyId))
          .build();
          **/
-        var jobSave = JobDto.fromDtotoEntity(requestDto, UUID.fromString(companyId));
+        var jobSave = JobEntity.builder()
+                .beneficios(jobDto.getBeneficios())
+                .level(jobDto.getLevel())
+                .description(jobDto.getDescription())
+                .company_Id(UUID.fromString(companyId))
+                .build();
+
         return createJobUseCase.execute(jobSave);
     }
 

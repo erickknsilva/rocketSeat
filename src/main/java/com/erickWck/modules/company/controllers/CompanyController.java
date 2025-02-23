@@ -1,6 +1,6 @@
 package com.erickWck.modules.company.controllers;
 
-import com.erickWck.modules.company.entity.Company;
+import com.erickWck.modules.company.entity.CompanyEntity;
 import com.erickWck.modules.company.useCases.CreateCompanyUseCase;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
@@ -28,13 +28,13 @@ public class CompanyController {
     @Operation(summary = "Cadastro da empresa.", description = "Essa função é responsavel por cadastrar uma empresa.")
     @ApiResponses({
             @ApiResponse(responseCode = "200", content = {
-                    @Content(array = @ArraySchema(schema = @Schema(implementation = Company.class)))
+                    @Content(array = @ArraySchema(schema = @Schema(implementation = CompanyEntity.class)))
             }),
             @ApiResponse(responseCode = "400", description = "Usuario já cadastrado no sistema.")
     })
-    public ResponseEntity<Object> create(@Valid @RequestBody Company company) {
+    public ResponseEntity<Object> create(@Valid @RequestBody CompanyEntity companyEntity) {
         try {
-            var result = companyUseCase.execute(company);
+            var result = companyUseCase.execute(companyEntity);
 
             return ResponseEntity.ok().body(result);
         } catch (Exception e) {

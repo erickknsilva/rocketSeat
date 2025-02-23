@@ -4,7 +4,7 @@ import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.erickWck.modules.company.dto.AuthCompanyDto;
 import com.erickWck.modules.company.dto.AuthCompanyDtoResponse;
-import com.erickWck.modules.company.entity.Company;
+import com.erickWck.modules.company.entity.CompanyEntity;
 import com.erickWck.modules.company.repository.CompanyRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -42,23 +42,23 @@ public class AuthCompanyUseCase {
     }
 
     private void passwordIsEquals(AuthCompanyDto dto,
-                                  Company company) throws AuthenticationException {
+                                  CompanyEntity companyEntity) throws AuthenticationException {
 
-        var passwordMatcher = this.passwordEncoder.matches(dto.password(), company.getPassword());
+        var passwordMatcher = this.passwordEncoder.matches(dto.password(), companyEntity.getPassword());
         if (!passwordMatcher) {
             throw new AuthenticationException();
         }
 
     }
 
-    private AuthCompanyDtoResponse getToken(Company company) {
+    private AuthCompanyDtoResponse getToken(CompanyEntity companyEntity) {
 
         Instant expireIn = Instant.now().plus(Duration.ofHours(2));
         Algorithm algorithm = Algorithm.HMAC256(secret);
 
         var token = JWT.create()
                 .withIssuer("erickWck")
-                .withSubject(company.getId().toString())
+                .withSubject(companyEntity.getId().toString())
                 .withExpiresAt(expireIn)
                 .withClaim("roles", Arrays.asList("COMPANY"))
                 .sign(algorithm);
