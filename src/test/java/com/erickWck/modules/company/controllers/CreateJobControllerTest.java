@@ -11,7 +11,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
@@ -20,6 +19,7 @@ import java.util.UUID;
 import static com.erickWck.utils.TestUtils.generatedTokenUtils;
 import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.springSecurity;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @ActiveProfiles("test")
@@ -62,10 +62,23 @@ public class CreateJobControllerTest extends ConfigPostSqlContainerTest {
                         .header("Authorization", generatedTokenUtils(company.getId(),
                                 "erickWck_!@#"))
                 )
-                .andExpect(MockMvcResultMatchers.status().isOk());
+                .andExpect(status().isOk());
 
         System.out.println(result);
     }
 
+    @Test
+    public void shouldThrowCompanyNotFoundExceptionWhenCompanyDoesNotExist() throws Exception {
 
+        JobRequestDto jobRequest = JobRequestDto.builder().beneficios("Beneficios teste")
+                .description("descricao teste").level("levete teste").build();
+
+        mockMvc.perform(post("/company/job")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(TestUtils.objectToJson(jobRequest))
+                .header("Authorization", generatedTokenUtils(UUID.randomUUID(),
+                        "erickWck_!@#"))
+        ).andExpect(status().isBadRequest());
+
+    }
 }

@@ -55,7 +55,8 @@ public class CompanyEntity {
             description = "Site da empresa para ser exibido.")
     private String website;
 
-    @Schema(example = "Uma empresa de tecnologia especializada em soluções inovadoras para o mercado digital.", minLength = 100, maxLength = 800,
+    @Schema(example = "Uma empresa de tecnologia especializada em soluções inovadoras para o mercado digital.",
+            minLength = 100, maxLength = 800,
             description = "Faça uma descrição da empresa.")
     private String description;
 

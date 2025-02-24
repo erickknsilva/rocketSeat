@@ -12,7 +12,9 @@ import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
+import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
@@ -33,28 +35,26 @@ public class JobController {
     @ApiResponses({
             @ApiResponse(responseCode = "200", content = {
                     @Content(schema = @Schema(implementation = JobEntity.class))
-            })
+            }),
+            @ApiResponse(responseCode = "404", description = "Company not found")
     })
     @SecurityRequirement(name = "jwt_auth")
-    public JobEntity create(@Valid @RequestBody JobRequestDto jobDto, HttpServletRequest request) {
+    public ResponseEntity<Object> create(@Valid @RequestBody JobRequestDto jobDto, HttpServletRequest request) {
 
         String companyId = request.getAttribute("companyID").toString();
 
-        /** var jobSave = Job.builder()
-         .description(requestDto.description())
-         .level(requestDto.level())
-         .beneficios(requestDto.beneficios())
-         .company_Id(UUID.fromString(companyId))
-         .build();
-         **/
-        var jobSave = JobEntity.builder()
-                .beneficios(jobDto.getBeneficios())
-                .level(jobDto.getLevel())
-                .description(jobDto.getDescription())
-                .company_Id(UUID.fromString(companyId))
-                .build();
+        try {
+            var jobSave = JobEntity.builder()
+                    .beneficios(jobDto.getBeneficios()).level(jobDto.getLevel())
+                    .description(jobDto.getDescription()).company_Id(UUID.fromString(companyId))
+                    .build();
 
-        return createJobUseCase.execute(jobSave);
+            var result = this.createJobUseCase.execute(jobSave);
+
+            return ResponseEntity.ok().body(result);
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(e);
+        }
     }
 
 }

@@ -18,19 +18,14 @@ public class ConfigPostSqlContainerTest {
             new PostgreSQLContainer<>("postgres:latest")
                     .withDatabaseName("testdb")
                     .withUsername("postgres")
-                    .withPassword("password");
+                    .withPassword("password")
+                    .withReuse(true);
 
 
     @Test
     void connectionEstablished() {
         assertThat(postgreSQLContainer.isCreated()).isTrue();
         assertThat(postgreSQLContainer.isRunning()).isTrue();
-
-        // Exibindo informações de conexão
-        System.out.println("DB URL: " + postgreSQLContainer.getJdbcUrl());
-        System.out.println("DB Name: " + postgreSQLContainer.getDatabaseName());
-        System.out.println("DB Username: " + postgreSQLContainer.getUsername());
-        System.out.println("DB Password: " + postgreSQLContainer.getPassword());
     }
 
     public static String getJdbcUrl() {
