@@ -2,6 +2,10 @@ plugins {
     id 'java'
     id 'org.springframework.boot' version '3.3.5'
     id 'io.spring.dependency-management' version '1.1.6'
+    id 'jacoco'
+    id("org.sonarqube") version "6.0.1.5171"
+
+
 }
 
 group = 'br.com.erickWck'
@@ -12,6 +16,8 @@ java {
         languageVersion = JavaLanguageVersion.of(17)
     }
 }
+
+
 
 repositories {
     mavenCentral()
@@ -50,6 +56,16 @@ dependencies {
 
 tasks.named('test') {
     useJUnitPlatform()
+    finalizedBy jacocoTestReport
+}
+
+jacocoTestReport {
+    reports {
+        xml.required = true
+        csv.required = true
+        html.outputLocation = layout.buildDirectory.dir('jacocoHtml')
+    }
+    dependsOn test // tests are required to run before generating the report
 }
 
 bootBuildImage {
