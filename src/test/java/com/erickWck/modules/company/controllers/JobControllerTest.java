@@ -23,7 +23,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @ActiveProfiles("test")
-public class CreateJobControllerTest extends ConfigPostSqlContainerTest {
+public class JobControllerTest extends ConfigPostSqlContainerTest {
 
     private MockMvc mockMvc;
 
