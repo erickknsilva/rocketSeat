@@ -49,17 +49,16 @@ public class ApplyJobEntityCandidateEntityUseCaseTest {
         candidate = CandidateEntity.builder().id(idCandidate).name("erick").username("erickWck").email("erickWck@gmail.com").build();
     }
 
-
     @Test
     @DisplayName("Deve lançar uma exceção CandidateNotFoundException se o candidato não existir.")
     public void shouldThrowCandidateNotFoundExceptionWhenCandidateNotExist() {
-
 
         assertThatExceptionOfType(CandidateNotFoundException.class)
                 .isThrownBy(() -> applyJobCandidateUseCase.execute(candidate.getId(), null))
                 .withMessage("Candidate not found");
 
     }
+
 
     @Test
     @DisplayName("Deve lançar uma exceção JobNotFoundException, se vaga não existir.")
@@ -91,4 +90,6 @@ public class ApplyJobEntityCandidateEntityUseCaseTest {
         assertNotNull(result.getId());
 
     }
+
+
 }

@@ -23,7 +23,8 @@ public class SecurityConfig {
             "/company",
             "/company/auth",
             "/candidate/auth",
-            "/job"
+            "/job",
+            "/actuator/**"
     };
 
     private static final String[] SWAGGERROUTES = {

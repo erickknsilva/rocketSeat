@@ -15,12 +15,14 @@ public class SwaggerConfig {
                 .info(new Info().title("Gestão de vagas.")
                         .description("API responsavel pela gestão de vagas").version("1"))
                 .schemaRequirement("jwt_auth", createSecurityScheme());
-//                .addSecurityItem(new SecurityRequirement().addList("Bearer Authentication"))
-//                .components(new Components().addSecuritySchemes("Bearer Authentication", createSecurityScheme()));
+/*             .addSecurityItem(new SecurityRequirement().addList("Bearer Authentication"))
+                .components(new Components().addSecuritySchemes("Bearer Authentication", createSecurityScheme()));
+**/
     }
 
     private SecurityScheme createSecurityScheme() {
         return new SecurityScheme().name("jwt_auth").type(SecurityScheme.Type.HTTP)
                 .scheme("bearer").bearerFormat("JWT").in(SecurityScheme.In.HEADER);
     }
+
 }
