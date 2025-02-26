@@ -25,7 +25,6 @@ management:
     prometheus:
       enabled: true
 
-
 security:
   token:
     secret: erickWck_!@#
