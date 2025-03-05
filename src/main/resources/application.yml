@@ -10,7 +10,29 @@ spring:
   jpa:
     hibernate:
       ddl-auto: update
+<<<<<<< HEAD
+=======
+management:
+  endpoints:
+    enabled-by-default: false
+    web:
+      exposure:
+        include: health,metrics,prometheus
+  endpoint:
+    health:
+      enabled: true
+      show-details: always
+    metrics:
+      enabled: true
+    prometheus:
+      enabled: true
+>>>>>>> v10
 
 security:
   token:
     secret: erickWck_!@#
+<<<<<<< HEAD
+=======
+    candidate: erickWck
+
+>>>>>>> v10

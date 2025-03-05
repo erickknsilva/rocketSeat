@@ -5,8 +5,43 @@ services:
     container_name: 'gestao_vagas'
     image: postgres
     ports:
+<<<<<<< HEAD
       - 5432:5432
+=======
+      - "5432:5432"
+>>>>>>> v10
     environment:
       - POSTGRES_USER=user
       - POSTGRES_PASSWORD=user123
       - POSTGRES_DB=gestao_vagas
+<<<<<<< HEAD
+=======
+  prometheus:
+    container_name: 'prometheus'
+    image: prom/prometheus:latest
+    volumes:
+      - ../config/prometheus.yml:/etc/prometheus/prometheus.yml
+      - prometheus_data:/prometheus
+    networks:
+      - gv-network
+    ports:
+      - "9090:9090"
+    extra_hosts:
+      -  "host.docker.internal:host-gateway"
+  grafana:
+    container_name: grafana
+    image: grafana/grafana:latest
+    ports:
+      - "3000:3000"
+    networks:
+      - gv-network
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+
+networks:
+  gv-network:
+    driver: bridge
+
+volumes:
+  prometheus_data:
+>>>>>>> v10
